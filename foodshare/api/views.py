@@ -6,15 +6,15 @@ from .models import *
 from rest_framework.generics import GenericAPIView
 from rest_framework import generics
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
- from django.contrib.auth import authenticate
+from django.contrib.auth.models import User 
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 # Create your views here.
 
 class RegisterAPI(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            user = a
             serializer.save()
             return Response({"status":True,"message": "User created successfully" ,"data":{}})
         return Response(
@@ -25,6 +25,32 @@ class RegisterAPI(APIView):
             }
         )
 
+
+class LoginAPI(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            username = serializer.data.get('username')
+            password = serializer.data.get('password')
+            
+            print(f"Authenticating user: {username}")  # Debugging
+            user = authenticate(username=username, password=password)
+            
+            if user is None:
+                print("Invalid credentials")
+                return Response(
+                    {"status": False, "message": "Invalid credentials", "data": serializer.errors}
+                )
+            
+            token, created = Token.objects.get_or_create(user=user)
+            return Response(
+                {"status": True, "message": "User logged in successfully", "data": {"token": token.key}}
+            )
+        else:
+            print("Serializer errors:", serializer.errors)  # Debugging
+            return Response(
+                {"status": False, "message": "Invalid input", "data": serializer.errors}
+            )
 
 @api_view(['GET'])
 def get_list(request):

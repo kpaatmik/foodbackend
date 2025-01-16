@@ -22,4 +22,5 @@ urlpatterns = [
     path("get_list/",get_list),
     path("add_list/",add_list),
     path("register/",RegisterAPI.as_view()),
+    path("login/",LoginAPI.as_view()),
 ]
