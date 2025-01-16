@@ -7,14 +7,14 @@ from rest_framework.generics import GenericAPIView
 from rest_framework import generics
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
- from django.contrib.auth import authenticate
+# from django.contrib.auth import authenticate
 # Create your views here.
 
 class RegisterAPI(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            user = a
+            
             serializer.save()
             return Response({"status":True,"message": "User created successfully" ,"data":{}})
         return Response(
@@ -44,6 +44,7 @@ def get_list(request):
 def add_list(request):
     if request.method == 'POST':
         data = request.data
+        print(data)
         serializer = ListSerializer(data=data)
         if serializer.is_valid():
             serializer.save()

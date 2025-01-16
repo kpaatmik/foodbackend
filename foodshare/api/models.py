@@ -40,7 +40,7 @@ class FoodListing(models.Model):
     expiry_date = models.DateTimeField()
     visibilty = models.BooleanField(default=True)
     location = models.CharField(max_length=100,blank=True, null=True)  
-    image_url = models.URLField(blank=True, null=True)
+    image = models.ImageField(upload_to='static/',blank=True,null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='food_listings')
     created_at = models.DateTimeField(auto_now_add=True)
     def save(self, *args, **kwargs):
