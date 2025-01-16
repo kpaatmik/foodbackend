@@ -29,6 +29,11 @@ class RegisterSerializer(serializers.Serializer):
         )
         return user
 
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=100, min_length=3, required=True)
+    password = serializers.CharField(max_length=200)
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
